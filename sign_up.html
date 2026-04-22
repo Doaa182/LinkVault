@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <!-- meta tags -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- google fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- fontawesome icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    />
+
+    <!-- title and favicon -->
+    <title>Registration App | Sign Up</title>
+    <link
+      rel="shortcut icon"
+      href="./Assets/user-signup-icon.png"
+      type="image/png"
+    />
+
+    <!-- css links -->
+    <link rel="stylesheet" href="./CSS/bootstrap.min.css" />
+    <link rel="stylesheet" href="./CSS/media_query.css" />
+    <link rel="stylesheet" href="./CSS/sign.css" />
+  </head>
+
+  <body>
+    <div
+      class="container d-flex justify-content-center align-items-center vh-100"
+    >
+      <div class="row signup-card">
+        <div class="signup-left-part p-4 col-sm-12 col-md-6">
+          <div
+            class="d-flex justify-content-center align-items-center flex-column h-100"
+          >
+            <p class="fs-2 text-white text-center fw-bold">Welcome Back!</p>
+
+            <p class="text-white text-center">
+              To keep connected with us please login with your personal info
+            </p>
+
+            <div class="text-center">
+              <a
+                class="rounded-pill text-uppercase px-5 fw-semibold text-decoration-none transparent-btn common-btn"
+                href="./index.html"
+                role="button"
+                >sign in</a
+              >
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-white signup-right-part p-4 col-sm-12 col-md-6">
+          <div>
+            <h1 class="fs-2 fw-bold text-center mb-4">Create Account</h1>
+
+            <ul class="list-unstyled d-flex justify-content-center gap-5">
+              <li>
+                <a href="#"
+                  ><i class="fa-brands fa-facebook-f position-relative"></i
+                ></a>
+              </li>
+              <li>
+                <a href="#"
+                  ><i class="fab fa-google-plus-g position-relative"></i
+                ></a>
+              </li>
+              <li>
+                <a href="#"
+                  ><i class="fa-brands fa-linkedin-in position-relative"></i
+                ></a>
+              </li>
+            </ul>
+
+            <p class="text-center mt-4">or use your email for registration</p>
+
+            <input
+              type="text"
+              class="form-control mb-3"
+              placeholder="Name"
+              id="signUpName"
+            />
+            <input
+              type="email"
+              class="form-control mb-3"
+              placeholder="Email"
+              id="signUpEmail"
+            />
+            <input
+              type="password"
+              class="form-control mb-4"
+              placeholder="Password"
+              id="signUpPass"
+            />
+            <div id="invalidSignUpMsg"></div>
+
+            <div class="text-center">
+              <a
+                class="rounded-pill text-uppercase text-white px-5 fw-semibold text-decoration-none soft-red-btn common-btn"
+                href="#"
+                role="button"
+                onclick="signUp()"
+                >sign up</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- js links -->
+    <script src="./JS/bootstrap.bundle.min.js"></script>
+    <script src="./JS/main.js"></script>
+  </body>
+</html>

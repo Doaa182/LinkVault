@@ -1,0 +1,155 @@
+body {
+  background-color: #f6f5f7;
+  color: var(--very-dark-grayish-blue);
+}
+
+.signin-card,
+.signup-card {
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+  max-width: 659px;
+}
+
+.signin-right-part,
+.signup-left-part {
+  background-color: var(--very-soft-red);
+}
+
+.signin-left-part i::after,
+.signup-right-part i::after {
+  content: "";
+  position: absolute;
+  border: 1px solid #cbcbcb;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
+  bottom: 50%;
+  right: 50%;
+  transform: translate(50%, 50%);
+  z-index: -1;
+  transition: all 0.15s ease-in-out;
+  -webkit-transition: all 0.15s ease-in-out;
+  -moz-transition: all 0.15s ease-in-out;
+  -ms-transition: all 0.15s ease-in-out;
+  -o-transition: all 0.15s ease-in-out;
+  -webkit-transform: translate(50%, 50%);
+  -moz-transform: translate(50%, 50%);
+  -ms-transform: translate(50%, 50%);
+  -o-transform: translate(50%, 50%);
+}
+
+.signin-left-part i,
+.signup-right-part i {
+  color: var(--very-dark-grayish-blue);
+  z-index: 2;
+  font-size: 15px;
+  transition: all 0.15s ease-in-out;
+  -webkit-transition: all 0.15s ease-in-out;
+  -moz-transition: all 0.15s ease-in-out;
+  -ms-transition: all 0.15s ease-in-out;
+  -o-transition: all 0.15s ease-in-out;
+}
+
+.signin-left-part i:hover,
+.signup-right-part i:hover {
+  color: var(--white);
+}
+
+.signin-left-part i:hover::after,
+.signup-right-part i:hover::after {
+  background-color: var(--very-soft-red);
+  border-color: var(--very-soft-red);
+}
+
+.signin-left-part p:nth-child(3),
+.signup-right-part p:nth-child(3) {
+  font-size: 12px;
+  font-family: "Montserrat", sans-serif;
+}
+
+.form-control {
+  color: var(--very-dark-grayish-blue);
+}
+
+.form-control:focus {
+  border-color: var(--very-soft-red);
+  box-shadow: 0 0 0 0.25rem rgba(228, 177, 176, 0.25);
+  color: var(--very-dark-grayish-blue);
+}
+
+.form-control:placeholder-shown {
+  font-size: 15px;
+}
+
+.signin-left-part a:nth-child(6) {
+  font-size: 14px;
+  color: var(--very-dark-grayish-blue);
+  font-family: "Montserrat", sans-serif;
+  text-decoration: none;
+}
+
+.signin-left-part a:nth-child(6):hover {
+  text-decoration: underline;
+}
+
+.common-btn {
+  font-size: 16px;
+  padding-bottom: 11px;
+  padding-top: 11px;
+  transition: all 0.15s ease-in-out;
+  -webkit-transition: all 0.15s ease-in-out;
+  -moz-transition: all 0.15s ease-in-out;
+  -ms-transition: all 0.15s ease-in-out;
+  -o-transition: all 0.15s ease-in-out;
+}
+
+.soft-red-btn {
+  background-color: var(--very-soft-red);
+}
+
+.soft-red-btn:hover {
+  background-color: #d3a3a2;
+}
+
+.signin-right-part p:first-child,
+.signup-left-part p:first-child {
+  font-family: "Montserrat", sans-serif;
+}
+
+.signin-right-part p:nth-child(2),
+.signup-left-part p:nth-child(2) {
+  font-size: 14px;
+  font-family: "Montserrat", sans-serif;
+  margin-bottom: 30px;
+}
+
+.transparent-btn {
+  background-color: transparent;
+  border: 2px solid var(--white);
+  color: var(--white);
+}
+
+.transparent-btn:hover {
+  background-color: var(--white);
+  color: var(--very-soft-red);
+}
+
+#invalidSignInMsg p,
+#invalidSignUpMsg p {
+  font-size: 13px;
+  font-family: "Montserrat", sans-serif;
+}
+
+:root {
+  --white: #ffffff;
+  --very-dark-grayish-blue: #3a3c4b;
+  --very-soft-red: #e4b1b0;
+}
