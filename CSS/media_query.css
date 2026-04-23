@@ -18,6 +18,11 @@
     -ms-border-radius: 0px;
     -o-border-radius: 0px;
   }
+
+  td:last-child {
+    display: flex;
+    gap: 3px;
+  }
 }
 
 @media screen and (min-width: 768px) {

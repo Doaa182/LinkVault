@@ -1,17 +1,24 @@
-*::selection {
-  background-color: var(--main-color);
+body {
+  /* font-family: "PT Sans Caption", sans-serif; */
+  background-color: white;
+  color: var(--text-main);
+}
+header i {
+  color: #45414f;
+  cursor: pointer;
 }
 
-body {
-  font-family: "PT Sans Caption", sans-serif;
-  background-color: var(--bg-main);
-  color: var(--text-main);
+header i:hover {
+  color: #725760;
+}
+
+.form-label {
+  color: #45414f;
 }
 
 h1 {
-  color: var(--text-main);
   font-size: 50px;
-  font-family: "Pacifico", cursive;
+  /* font-family: "Pacifico", cursive; */
 }
 
 h1::after {
@@ -34,28 +41,14 @@ h1:hover::after {
   height: 63%;
 }
 
-.middle-container {
-  border-top: 2px var(--text-main) dotted;
-  border-bottom: 2px var(--text-main) dotted;
-}
-
-h2 {
-  font-family: "Righteous", sans-serif;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-h2::selection {
-  color: var(--text-main);
-}
-
 .form-control {
   border-color: #ced4da;
 }
 
 .form-control:focus {
-  border-color: var(--main-color);
-  box-shadow: 0 0 0 0.25rem var(--main-color-shadow);
+  border-color: var(--very-soft-red);
+  box-shadow: 0 0 0 0.25rem rgba(228, 177, 176, 0.25);
+  color: var(--very-dark-grayish-blue);
 }
 
 .fa-circle-exclamation {
@@ -100,7 +93,7 @@ h2::selection {
 }
 
 .modal-content p {
-  font-family: "Bree Serif", serif;
+  /* font-family: "Bree Serif", serif; */
   font-size: 21px;
   color: var(--text-main);
 }
@@ -114,37 +107,31 @@ h2::selection {
   padding-top: 10px;
 }
 
-.pencil-cursor {
-  z-index: 2000;
-  pointer-events: none;
-  width: 32px;
-}
-
-.mode {
-  width: 40px;
-  height: 40px;
-  background-color: var(--main-color);
-  border-radius: 6px;
-  transition: all 0.3s ease;
-  -moz-transition: all 0.3s ease;
-  -ms-transition: all 0.3s ease;
-  -o-transition: all 0.3s ease;
-  -webkit-transition: all 0.3s ease;
-}
-
-.mode:hover {
-  box-shadow:
-    0 0 12px var(--main-color-shadow),
-    0 0 24px var(--main-color-shadow);
-}
-
-.mode i {
-  font-size: 23px;
-}
-
 .btn-warning,
 .btn-warning:hover {
   color: #ffffff;
+}
+
+.h1-wapper {
+  background-color: #e4b1b0;
+  padding: 50px 0px 100px;
+}
+.table {
+  box-shadow: 0 0px 28px rgba(0, 0, 0, 0.15);
+  border-radius: 6px;
+  overflow: hidden;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  -ms-border-radius: 6px;
+  -o-border-radius: 6px;
+}
+
+.table th {
+  background-color: #e4b1b0;
+}
+
+.table td {
+  background-color: rgba(228, 177, 176, 0.1);
 }
 
 :root {
@@ -155,4 +142,7 @@ h2::selection {
 
   --main-color: #fec260;
   --main-color-shadow: #fec26055;
+
+  --very-dark-grayish-blue: #3a3c4b;
+  --very-soft-red: #e4b1b0;
 }
