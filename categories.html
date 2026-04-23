@@ -48,13 +48,13 @@
         <div class="row mb-2">
           <div class="col-12">
             <div class="mb-3 position-relative w-75 m-auto">
-              <label for="SiteName" class="form-label mb-2 fw-semibold">
+              <label for="CategoryName" class="form-label mb-2 fw-semibold">
                 Category Name
               </label>
               <input
                 type="text"
                 class="form-control"
-                id="SiteName"
+                id="CategoryName"
                 placeholder="e.g. Productivity"
                 onkeyup="changeInputStyle(this)"
               />
@@ -65,13 +65,16 @@
         <div class="row mb-2">
           <div class="col-12">
             <div class="mb-3 position-relative w-75 m-auto">
-              <label for="SiteUrl" class="form-label mb-2 fw-semibold">
+              <label
+                for="CategoryDescription"
+                class="form-label mb-2 fw-semibold"
+              >
                 Category Description
               </label>
               <input
                 type="text"
                 class="form-control"
-                id="SiteUrl"
+                id="CategoryDescription"
                 placeholder="e.g. General tools, tips, and resources to improve efficiency and daily workflow."
                 onkeyup="changeInputStyle(this)"
               />
@@ -137,17 +140,20 @@
 
           <div class="modal-body p-0">
             <p class="pb-2 mb-0">
-              Site Name or Url is not valid, Please follow the rules below :
+              Category Name or Description is not valid, Please follow the rules
+              below :
             </p>
 
             <ul class="list-unstyled">
               <li>
-                <i class="fa-regular fa-circle-right p-2"></i>Site name must
-                contain at least 3 characters
+                <i class="fa-regular fa-circle-right p-2"></i>
+                Category name must contain at least 3 characters. Letters,
+                numbers, underscores, and spaces are allowed.
               </li>
               <li>
-                <i class="fa-regular fa-circle-right p-2"></i>Site URL must be a
-                valid one
+                <i class="fa-regular fa-circle-right p-2"></i>
+                Category description is optional and can contain up to 300
+                characters.
               </li>
             </ul>
           </div>

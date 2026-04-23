@@ -152,24 +152,24 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // **************************************************************************************************************** //
 
-const siteNameInput = document.getElementById("SiteName");
-const siteUrlInput = document.getElementById("SiteUrl");
+const categoryNameInput = document.getElementById("CategoryName");
+const categoryDescInput = document.getElementById("CategoryDescription");
 const addBtn = document.querySelector(".add-btn");
-let siteId = undefined;
+let categoryId = undefined;
 const tableSearchWrapper = document.querySelector(".table-search-wrap");
 
 if (localStorage.getItem("Display Category Data") != null) {
-  displayAllSites();
+  displayAllCategories();
 }
 
 // CRUDs
-async function addSite() {
-  const site = {
-    categoryName: siteNameInput.value.trim(),
-    description: siteUrlInput.value.trim(),
+async function addCategory() {
+  const category = {
+    categoryName: categoryNameInput.value.trim(),
+    description: categoryDescInput.value.trim(),
   };
 
-  if (site.categoryName === "" || site.description === "") {
+  if (category.categoryName === "" || category.description === "") {
     showModal();
     document.querySelector(".modal-body ul").innerHTML = `<li>
       <i class="fa-regular fa-circle-right p-2"></i>Both fields are required
@@ -186,7 +186,7 @@ async function addSite() {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
 
-      body: JSON.stringify(site),
+      body: JSON.stringify(category),
     });
 
     console.log("Create/Add Category Response", response);
@@ -215,40 +215,44 @@ async function addSite() {
 }
 
 function editForm(idx, id) {
-  const allSites = JSON.parse(localStorage.getItem("Display Category Data"));
+  const allCategories = JSON.parse(
+    localStorage.getItem("Display Category Data"),
+  );
 
-  siteNameInput.value = allSites[idx].categoryName;
-  siteUrlInput.value = allSites[idx].description;
+  categoryNameInput.value = allCategories[idx].categoryName;
+  categoryDescInput.value = allCategories[idx].description;
 
   addBtn.innerHTML = `Edit <i class="fa-solid fa-pen-to-square"></i>`;
   addBtn.classList.add("btn-warning");
   addBtn.classList.remove("btn-success");
 
-  siteId = id;
+  categoryId = id;
 }
 
-async function editSite() {
-  const site = {
-    categoryName: siteNameInput.value.trim(),
-    description: siteUrlInput.value.trim(),
+async function editCategory() {
+  const category = {
+    categoryName: categoryNameInput.value.trim(),
+    description: categoryDescInput.value.trim(),
   };
 
   try {
-    const response = await fetch(`${baseURL}/api/categories/${siteId}`, {
+    const response = await fetch(`${baseURL}/api/categories/${categoryId}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
-      body: JSON.stringify(site),
+      body: JSON.stringify(category),
     });
 
     console.log("Edit/Update Category Response", response);
 
+    let data;
     if (response.status === 204) {
       console.log("Success, no content returned");
+      return;
     } else {
-      const data = await response.json();
+      data = await response.json();
     }
 
     console.log("Edit/Update Category Data", data);
@@ -275,7 +279,7 @@ async function editSite() {
   addBtn.classList.add("btn-success");
 }
 
-async function deleteSite(id) {
+async function deleteCategory(id) {
   try {
     const response = await fetch(`${baseURL}/api/categories/${id}`, {
       method: "DELETE",
@@ -288,7 +292,7 @@ async function deleteSite(id) {
     console.log("Delete Category Response Status", response.status);
 
     if (response.status === 204) {
-      await displayAllSites();
+      await displayAllCategories();
       return;
     } else {
       const data = await response.json();
@@ -309,13 +313,13 @@ async function deleteSite(id) {
 }
 
 async function addOrEdit() {
-  if (validateSiteName() === true && validateSiteUrl() === true) {
+  if (validateCategoryName() === true && validateCategoryDesc() === true) {
     if (addBtn.innerHTML.includes("Add")) {
-      await addSite();
+      await addCategory();
     } else if (addBtn.innerHTML.includes("Edit")) {
-      await editSite();
+      await editCategory();
     }
-    await displayAllSites();
+    await displayAllCategories();
     clearForm();
   } else {
     showModal();
@@ -323,12 +327,12 @@ async function addOrEdit() {
 }
 
 function clearForm() {
-  siteNameInput.value = "";
-  siteUrlInput.value = "";
-  siteId = undefined;
+  categoryNameInput.value = "";
+  categoryDescInput.value = "";
+  categoryId = undefined;
 }
 
-async function displayAllSites() {
+async function displayAllCategories() {
   try {
     const response = await fetch(`${baseURL}/api/categories`, {
       method: "GET",
@@ -345,7 +349,7 @@ async function displayAllSites() {
 
     if (response.ok) {
       localStorage.setItem("Display Category Data", JSON.stringify(data));
-      renderSites(data);
+      renderCategories(data);
 
       if (data.length === 0) {
         tableSearchWrapper.classList.add("d-none");
@@ -369,11 +373,11 @@ async function displayAllSites() {
   }
 }
 
-function renderSites(arr) {
-  let concatSites = "";
+function renderCategories(arr) {
+  let concatCategories = "";
 
   for (let i = 0; i < arr.length; i++) {
-    concatSites += `
+    concatCategories += `
       <tr>
         <td>${i + 1}</td>
         <td>${arr[i].categoryName}</td>
@@ -388,7 +392,7 @@ function renderSites(arr) {
 
       <button
         class="btn btn-danger"
-        onclick="deleteSite(${arr[i].id})">
+        onclick="deleteCategory(${arr[i].id})">
         <i class="fa-solid fa-trash-can"></i>
       </button>
     </td>
@@ -396,7 +400,7 @@ function renderSites(arr) {
     `;
   }
 
-  document.querySelector("tbody").innerHTML = concatSites;
+  document.querySelector("tbody").innerHTML = concatCategories;
 }
 
 // Modal
@@ -425,22 +429,22 @@ modal.addEventListener("click", function (e) {
 });
 
 // Validation
-function validateSiteName() {
-  var siteNameRegex = /^\w{3,}(\s+\w+)*$/;
-  return siteNameRegex.test(siteNameInput.value);
+function validateCategoryName() {
+  const regex = /^[a-zA-Z0-9_]{3,}(\s+[a-zA-Z0-9_]+)*$/;
+  return regex.test(categoryNameInput.value.trim());
 }
 
-function validateSiteUrl() {
-  var siteUrlRegex =
-    /^(https?:\/\/)(www\.)?([a-zA-Z0-9]([a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])\.)+[a-zA-Z]{2,}(\/[a-zA-Z0-9\-\.]*)*\/?$/;
-  return siteUrlRegex.test(siteUrlInput.value);
+function validateCategoryDesc() {
+  return categoryDescInput.value.trim().length <= 300;
 }
 
 function changeInputStyle(inputElement) {
-  var validateSiteNameOrUrl =
-    inputElement.id === "SiteName" ? validateSiteName() : validateSiteUrl();
+  var validateCategoryNameOrDesc =
+    inputElement.id === "CategoryName"
+      ? validateCategoryName()
+      : validateCategoryDesc();
 
-  if (validateSiteNameOrUrl === true) {
+  if (validateCategoryNameOrDesc === true) {
     inputElement.classList.add("is-valid");
     inputElement.classList.remove("is-invalid");
   } else {
