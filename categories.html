@@ -1,0 +1,155 @@
+<!doctype html>
+
+<html>
+  <head>
+    <!-- meta tags -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- google fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- fontawesome icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    />
+
+    <!-- title and favicon -->
+    <title>Registration App | Categories Page</title>
+    <link rel="shortcut icon" href="./Assets/home-icon.png" type="image/png" />
+
+    <!-- css links -->
+    <link rel="stylesheet" href="./CSS/bootstrap.min.css" />
+    <link rel="stylesheet" href="./CSS/media_query.css" />
+    <link rel="stylesheet" href="./CSS/categories.css" />
+  </head>
+
+  <body>
+    <div class="h1-wapper text-center">
+      <h1 class="position-relative d-inline-block mb-3 mt-2">Categories</h1>
+    </div>
+
+    <main>
+      <div class="container mt-5 mb-4 px-3 py-4 middle-container">
+        <div class="row mb-2">
+          <div class="col-12">
+            <div class="mb-3 position-relative">
+              <label for="SiteName" class="form-label mb-2 fw-semibold">
+                <i class="fa-solid fa-book-bookmark me-2"></i>
+                Site Name
+              </label>
+              <input
+                type="text"
+                class="form-control"
+                id="SiteName"
+                placeholder="Bookmark Name"
+                onkeyup="changeInputStyle(this)"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="row mb-2">
+          <div class="col-12">
+            <div class="mb-3 position-relative">
+              <label for="SiteUrl" class="form-label mb-2 fw-semibold">
+                <i class="fas fa-link me-2"></i>Site URL
+              </label>
+              <input
+                type="text"
+                class="form-control"
+                id="SiteUrl"
+                placeholder="Website URL"
+                onkeyup="changeInputStyle(this)"
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- add btn -->
+        <div class="row">
+          <div class="col">
+            <div class="btn-wrapper text-center">
+              <button
+                type="button"
+                class="btn btn-success px-5 add-btn"
+                onclick="addOrEdit()"
+              >
+                Add
+                <i class="fa-solid fa-plus"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- table & search bar -->
+      <div class="container p-0 table-search-wrap d-none">
+        <table class="table text-center">
+          <thead>
+            <th>Index</th>
+            <th>Category Name</th>
+            <th>Category Description</th>
+            <th>Actions</th>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </main>
+
+    <!-- modal -->
+    <div
+      class="modal fade d-none"
+      id="exampleModal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content p-4">
+          <div class="modal-header border-0 p-0 mb-4">
+            <div class="d-flex gap-2">
+              <div class="red-circle rounded-circle"></div>
+              <div class="yellow-circle rounded-circle"></div>
+              <div class="green-circle rounded-circle"></div>
+            </div>
+
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+
+          <div class="modal-body p-0">
+            <p class="pb-2 mb-0">
+              Site Name or Url is not valid, Please follow the rules below :
+            </p>
+
+            <ul class="list-unstyled">
+              <li>
+                <i class="fa-regular fa-circle-right p-2"></i>Site name must
+                contain at least 3 characters
+              </li>
+              <li>
+                <i class="fa-regular fa-circle-right p-2"></i>Site URL must be a
+                valid one
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- js links -->
+    <script src="./JS/bootstrap.bundle.min.js"></script>
+    <script src="./JS/main.js"></script>
+  </body>
+</html>
