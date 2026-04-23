@@ -1,14 +1,6 @@
-var allUsers = [];
-
-if (localStorage.getItem("allUsers") != null) {
-  allUsers = JSON.parse(localStorage.getItem("allUsers"));
-}
-
 var signInEmailInput = document.getElementById("signInEmail");
 var signInPassInput = document.getElementById("signInPass");
 
-//name for first only
-//validateUserName for first only
 var signUpFirstNameInput = document.getElementById("signUpFirstName");
 var signUpLastNameInput = document.getElementById("signUpLastName");
 var signUpEmailInput = document.getElementById("signUpEmail");
@@ -17,65 +9,48 @@ var signUpPassInput = document.getElementById("signUpPass");
 var welcomeMsg = document.getElementById("welcomeMsg");
 const baseURL = "http://linkvaultapi.runasp.net";
 
-var isExist = false;
-var isFound = undefined;
-var isPassCorrect = undefined;
+async function signIn() {
+  var loggedInUser = {
+    email: signInEmailInput.value.trim(),
+    password: signInPassInput.value,
+  };
 
-function signIn() {
-  var idx = undefined;
+  if (loggedInUser.email == "" || loggedInUser.password == "") {
+    document.getElementById("invalidSignInMsg").innerHTML =
+      `<p class="text-danger text-center mb-4">All fields are required</p>`;
+    return;
+  }
 
-  if (signInEmailInput.value != "" && signInPassInput.value != "") {
-    for (var i = 0; i < allUsers.length; i++) {
-      if (
-        allUsers[i].email == signInEmailInput.value &&
-        allUsers[i].password == signInPassInput.value
-      ) {
-        isFound = true;
-        isPassCorrect = true;
-        idx = i;
-        break;
-      } else if (
-        allUsers[i].email == signInEmailInput.value &&
-        allUsers[i].password != signInPassInput.value
-      ) {
-        isFound = undefined;
-        isPassCorrect = false;
-      } else if (
-        allUsers[i].email != signInEmailInput.value &&
-        allUsers[i].password != signInPassInput.value
-      ) {
-        isFound = false;
-        isPassCorrect = undefined;
-      }
-    }
+  try {
+    let response = await fetch(`${baseURL}/api/auth/login`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(loggedInUser),
+    });
 
-    if (isFound == true && isPassCorrect == true) {
+    console.log("Sign In Response", response);
+
+    let data = await response.json();
+
+    console.log("Sign In Data", data);
+
+    if (response.ok) {
+      localStorage.setItem("token", data.token);
+
       document.getElementById("invalidSignInMsg").innerHTML =
         `<p class="text-success text-center mb-4">Successfully logged in.</p>`;
 
-      // localStorage.setItem("storedUserName", allUsers[idx].name);
-      localStorage.setItem("currentSessionUser", JSON.stringify(allUsers[idx]));
-
       window.open("./home_page.html", "_self");
-    } else if (isFound == false && isPassCorrect == undefined) {
+    } else {
+      let msg = data.message || "";
+
       document.getElementById("invalidSignInMsg").innerHTML =
-        `<p class="text-danger text-center mb-4">No account found with this email. Please sign up first.</p>`;
-    } else if (isFound == undefined && isPassCorrect == false) {
-      document.getElementById("invalidSignInMsg").innerHTML =
-        `<p class="text-danger text-center mb-4">Incorrect password. Please try again</p>`;
-    } else if (isFound == undefined && isPassCorrect == undefined) {
-      document.getElementById("invalidSignInMsg").innerHTML =
-        `<p class="text-danger text-center mb-4">No account found with this email. Please sign up first.</p>`;
+        `<p class="text-danger text-center mb-4">${msg}</p>`;
     }
-  } else if (signInEmailInput.value == "" && signInPassInput.value != "") {
+  } catch (error) {
+    console.error("Sign In Error:", error);
     document.getElementById("invalidSignInMsg").innerHTML =
-      `<p class="text-danger text-center mb-4">Email is required!</p>`;
-  } else if (signInEmailInput.value != "" && signInPassInput.value == "") {
-    document.getElementById("invalidSignInMsg").innerHTML =
-      `<p class="text-danger text-center mb-4">Password is required!</p>`;
-  } else if (signInEmailInput.value == "" && signInPassInput.value == "") {
-    document.getElementById("invalidSignInMsg").innerHTML =
-      `<p class="text-danger text-center mb-4">Email and Password are required!</p>`;
+      `<p class="text-danger text-center mb-4">Network error. Try again.</p>`;
   }
 }
 
@@ -119,6 +94,14 @@ async function signUp() {
 
     if (response.ok) {
       localStorage.setItem("token", data.token);
+      localStorage.setItem(
+        "currentSessionUser",
+        JSON.stringify({
+          firstName: user.firstName,
+          lastName: user.lastName,
+          email: user.email,
+        }),
+      );
 
       document.getElementById("invalidSignUpMsg").innerHTML =
         `<p class="text-success text-center mb-4">Account created! You can now log in.</p>`;
@@ -144,6 +127,7 @@ async function signUp() {
 }
 
 function signOut() {
+  localStorage.removeItem("token");
   localStorage.removeItem("currentSessionUser");
   window.open("./index.html", "_self");
 }
@@ -154,12 +138,6 @@ function validateUserName(signUpNameInput) {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-  // var storedUserName = localStorage.getItem("storedUserName");
-
-  // if (storedUserName != null && welcomeMsg != null) {
-  //   welcomeMsg.innerHTML = `<h1 class="fw-bolder text-uppercase text-white">Welcome ${storedUserName}</h1>`;
-  // }
-
   var currentSessionUser = JSON.parse(
     localStorage.getItem("currentSessionUser"),
   );
@@ -169,31 +147,13 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 
-// /api/auth/register
+// /api/auth/login
+
+// {
+//     "token": "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjlhZTJjYWMxLTkyOTYtNGE4Ni05NmU2LTFjOTBlN2VjOTU5ZiIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2VtYWlsYWRkcmVzcyI6ImRkZGQzQGdtYWlsLmNvbSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IlVzZXIiLCJleHAiOjE3NzY5ODY5NDQsImlzcyI6IkxpbmsgVmF1bHQgQXBpIiwiYXVkIjoiTGluayBWYWx1dCBDbGllbnQifQ.4Kuu1BITnBXs1Q0QeOIFzOf01sAteoYv1RVcBW3zhxkpde2hcd5-TIpj2_IFslfom3NAeu_37wlL0MYDyYBf0w"
+// }
 
 // {
 //     "statusCode": 400,
-//     "message": "Passwords must have at least one non alphanumeric character., Passwords must have at least one uppercase ('A'-'Z')."
-// }
-
-// {
-//     "token": "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjM3MmI3NDM3LTFkN2MtNDdmMy1hNTAwLTgxNTZiOWU2YjA3YiIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2VtYWlsYWRkcmVzcyI6ImRkZGRAZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiVXNlciIsImV4cCI6MTc3Njk3MTY3MSwiaXNzIjoiTGluayBWYXVsdCBBcGkiLCJhdWQiOiJMaW5rIFZhbHV0IENsaWVudCJ9.NBFvZNJdF1qP60OSMq-kfYX8yzjFwBrlUz7OTFCB33ufZKBhNiFbU3dyjTCxpJfxJk6qSNhoCnWlvdo2PBQGEg"
-// }
-
-// {
-//     "statusCode": 409,
-//     "message": "Email already exists."
-// }
-
-// {
-//     "type": "https://tools.ietf.org/html/rfc9110#section-15.5.1",
-//     "title": "One or more validation errors occurred.",
-//     "status": 400,
-//     "errors": {
-//         "Email": [
-//             "The Email field is required.",
-//             "The Email field is not a valid e-mail address."
-//         ]
-//     },
-//     "traceId": "00-4115a24f1fe5a5131c86743be430df7b-2e0c1c3c4bb7034d-00"
+//     "message": "Invalid email or password."
 // }
