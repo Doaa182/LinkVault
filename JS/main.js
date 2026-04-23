@@ -1,16 +1,16 @@
-var signInEmailInput = document.getElementById("signInEmail");
-var signInPassInput = document.getElementById("signInPass");
+const signInEmailInput = document.getElementById("signInEmail");
+const signInPassInput = document.getElementById("signInPass");
 
-var signUpFirstNameInput = document.getElementById("signUpFirstName");
-var signUpLastNameInput = document.getElementById("signUpLastName");
-var signUpEmailInput = document.getElementById("signUpEmail");
-var signUpPassInput = document.getElementById("signUpPass");
+const signUpFirstNameInput = document.getElementById("signUpFirstName");
+const signUpLastNameInput = document.getElementById("signUpLastName");
+const signUpEmailInput = document.getElementById("signUpEmail");
+const signUpPassInput = document.getElementById("signUpPass");
 
-var welcomeMsg = document.getElementById("welcomeMsg");
+const welcomeMsg = document.getElementById("welcomeMsg");
 const baseURL = "http://linkvaultapi.runasp.net";
 
 async function signIn() {
-  var loggedInUser = {
+  const loggedInUser = {
     email: signInEmailInput.value.trim(),
     password: signInPassInput.value,
   };
@@ -22,7 +22,7 @@ async function signIn() {
   }
 
   try {
-    let response = await fetch(`${baseURL}/api/auth/login`, {
+    const response = await fetch(`${baseURL}/api/auth/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(loggedInUser),
@@ -30,7 +30,7 @@ async function signIn() {
 
     console.log("Sign In Response", response);
 
-    let data = await response.json();
+    const data = await response.json();
 
     console.log("Sign In Data", data);
 
@@ -42,7 +42,7 @@ async function signIn() {
 
       window.open("./home_page.html", "_self");
     } else {
-      let msg = data.message || "";
+      const msg = data.message || "";
 
       document.getElementById("invalidSignInMsg").innerHTML =
         `<p class="text-danger text-center mb-4">${msg}</p>`;
@@ -55,7 +55,7 @@ async function signIn() {
 }
 
 async function signUp() {
-  var user = {
+  const user = {
     firstName: signUpFirstNameInput.value.trim(),
     lastName: signUpLastNameInput.value.trim(),
     email: signUpEmailInput.value.trim(),
@@ -80,7 +80,7 @@ async function signUp() {
   }
 
   try {
-    let response = await fetch(`${baseURL}/api/auth/register`, {
+    const response = await fetch(`${baseURL}/api/auth/register`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(user),
@@ -88,7 +88,7 @@ async function signUp() {
 
     console.log("Sign Up Response", response);
 
-    let data = await response.json();
+    const data = await response.json();
 
     console.log("Sign Up Data", data);
 
@@ -133,12 +133,12 @@ function signOut() {
 }
 
 function validateUserName(signUpNameInput) {
-  var userNameRegex = /^[a-zA-Z ]{1,20}$/;
+  const userNameRegex = /^[a-zA-Z ]{1,20}$/;
   return userNameRegex.test(signUpNameInput.value);
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-  var currentSessionUser = JSON.parse(
+  const currentSessionUser = JSON.parse(
     localStorage.getItem("currentSessionUser"),
   );
 
@@ -146,14 +146,3 @@ document.addEventListener("DOMContentLoaded", function () {
     welcomeMsg.innerHTML = `<h1 class="fw-bolder text-uppercase text-white text-center">Welcome ${currentSessionUser.firstName} ${currentSessionUser.lastName}</h1>`;
   }
 });
-
-// /api/auth/login
-
-// {
-//     "token": "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjlhZTJjYWMxLTkyOTYtNGE4Ni05NmU2LTFjOTBlN2VjOTU5ZiIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2VtYWlsYWRkcmVzcyI6ImRkZGQzQGdtYWlsLmNvbSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IlVzZXIiLCJleHAiOjE3NzY5ODY5NDQsImlzcyI6IkxpbmsgVmF1bHQgQXBpIiwiYXVkIjoiTGluayBWYWx1dCBDbGllbnQifQ.4Kuu1BITnBXs1Q0QeOIFzOf01sAteoYv1RVcBW3zhxkpde2hcd5-TIpj2_IFslfom3NAeu_37wlL0MYDyYBf0w"
-// }
-
-// {
-//     "statusCode": 400,
-//     "message": "Invalid email or password."
-// }
