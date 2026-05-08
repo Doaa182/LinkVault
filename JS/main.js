@@ -148,6 +148,8 @@ document.addEventListener("DOMContentLoaded", function () {
   if (welcomeMsg && currentSessionUser) {
     welcomeMsg.innerHTML = `<h1 class="fw-bolder text-uppercase text-white text-center">Welcome ${currentSessionUser.firstName} ${currentSessionUser.lastName}</h1>`;
   }
+
+  displayAllCategories();
 });
 
 // **************************************************************************************************************** //
@@ -155,79 +157,155 @@ document.addEventListener("DOMContentLoaded", function () {
 const categoryNameInput = document.getElementById("CategoryName");
 const categoryDescInput = document.getElementById("CategoryDescription");
 const addBtn = document.querySelector(".add-btn");
-let categoryId = undefined;
+let categoryId = null;
 const tableSearchWrapper = document.querySelector(".table-search-wrap");
+let isEditMode = false;
+let categories = [];
 
-if (localStorage.getItem("Display Category Data") != null) {
-  displayAllCategories();
-}
+// if (localStorage.getItem("Display Category Data") != null) {
+//   displayAllCategories();
+// }
 
 // CRUDs
+// async function addCategory() {
+//   const category = {
+//     categoryName: categoryNameInput.value.trim(),
+//     description: categoryDescInput.value.trim(),
+//   };
+
+//   if (category.categoryName === "" || category.description === "") {
+//     showModal();
+//     document.querySelector(".modal-body ul").innerHTML = `<li>
+//       <i class="fa-regular fa-circle-right p-2"></i>Both fields are required
+//     </li>`;
+
+//     return;
+//   }
+
+//   try {
+//     const response = await fetch(`${baseURL}/api/categories`, {
+//       method: "POST",
+//       headers: {
+//         "Content-Type": "application/json",
+//         Authorization: `Bearer ${localStorage.getItem("token")}`,
+//       },
+
+//       body: JSON.stringify(category),
+//     });
+
+//     console.log("Create/Add Category Response", response);
+
+//     const data = await response.json();
+
+//     console.log("Create/Add Category Data", data);
+
+//     if (response.ok) {
+//       localStorage.setItem("Create/Add Category Data", JSON.stringify(data));
+//     } else {
+//       let msg = Object.values(data.errors)[0][0] || data.message || "";
+
+//       showModal();
+//       document.querySelector(".modal-body ul").innerHTML = `<li>
+//       <i class="fa-regular fa-circle-right p-2"></i>${msg}
+//     </li>`;
+//     }
+//   } catch (error) {
+//     console.error("Create/Add Category Error:", error);
+//     showModal();
+//     document.querySelector(".modal-body ul").innerHTML = `<li>
+//       <i class="fa-regular fa-circle-right p-2"></i>Network error. Try again.
+//     </li>`;
+//   }
+// }
+
 async function addCategory() {
   const category = {
     categoryName: categoryNameInput.value.trim(),
     description: categoryDescInput.value.trim(),
   };
 
-  if (category.categoryName === "" || category.description === "") {
-    showModal();
-    document.querySelector(".modal-body ul").innerHTML = `<li>
-      <i class="fa-regular fa-circle-right p-2"></i>Both fields are required
-    </li>`;
-
-    return;
+  if (!category.categoryName || !category.description) {
+    showErrMsg("Both fields are required");
+    return false;
   }
 
   try {
-    const response = await fetch(`${baseURL}/api/categories`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-
-      body: JSON.stringify(category),
-    });
-
-    console.log("Create/Add Category Response", response);
-
-    const data = await response.json();
-
-    console.log("Create/Add Category Data", data);
-
-    if (response.ok) {
-      localStorage.setItem("Create/Add Category Data", JSON.stringify(data));
-    } else {
-      let msg = Object.values(data.errors)[0][0] || data.message || "";
-
-      showModal();
-      document.querySelector(".modal-body ul").innerHTML = `<li>
-      <i class="fa-regular fa-circle-right p-2"></i>${msg}
-    </li>`;
-    }
+    await apiRequest("/api/categories", "POST", category, true);
+    // await displayAllCategories();
+    // clearForm();
+    return true;
   } catch (error) {
     console.error("Create/Add Category Error:", error);
-    showModal();
-    document.querySelector(".modal-body ul").innerHTML = `<li>
-      <i class="fa-regular fa-circle-right p-2"></i>Network error. Try again.
-    </li>`;
+    return false;
   }
 }
 
-function editForm(idx, id) {
-  const allCategories = JSON.parse(
-    localStorage.getItem("Display Category Data"),
-  );
+function editForm(idx) {
+  // const allCategories = JSON.parse(
+  //   localStorage.getItem("Display Category Data"),
+  // );
 
-  categoryNameInput.value = allCategories[idx].categoryName;
-  categoryDescInput.value = allCategories[idx].description;
+  categoryNameInput.value = categories[idx].categoryName;
+  categoryDescInput.value = categories[idx].description;
 
   addBtn.innerHTML = `Edit <i class="fa-solid fa-pen-to-square"></i>`;
+  isEditMode = true;
   addBtn.classList.add("btn-warning");
   addBtn.classList.remove("btn-success");
 
-  categoryId = id;
+  // categoryId = id;
+  categoryId = categories[idx].id;
 }
+
+// async function editCategory() {
+//   const category = {
+//     categoryName: categoryNameInput.value.trim(),
+//     description: categoryDescInput.value.trim(),
+//   };
+
+//   try {
+//     const response = await fetch(`${baseURL}/api/categories/${categoryId}`, {
+//       method: "PUT",
+//       headers: {
+//         "Content-Type": "application/json",
+//         Authorization: `Bearer ${localStorage.getItem("token")}`,
+//       },
+//       body: JSON.stringify(category),
+//     });
+
+//     console.log("Edit/Update Category Response", response);
+
+//     let data;
+//     if (response.status === 204) {
+//       console.log("Success, no content returned");
+//       return;
+//     } else {
+//       data = await response.json();
+//     }
+
+//     console.log("Edit/Update Category Data", data);
+
+//     if (response.ok) {
+//       localStorage.setItem("Edit/Update Category Data", JSON.stringify(data));
+//     } else {
+//       let msg = Object.values(data.errors)[0][0] || data.message || "";
+
+//       showModal();
+//       document.querySelector(".modal-body ul").innerHTML = `<li>
+//       <i class="fa-regular fa-circle-right p-2"></i>${msg}
+//     </li>`;
+//     }
+//   } catch (error) {
+//     console.error("Edit/Update Category Error:", error);
+//     showModal();
+//     document.querySelector(".modal-body ul").innerHTML = `<li>
+//       <i class="fa-regular fa-circle-right p-2"></i>Network error. Try again.
+//     </li>`;
+//   }
+//   addBtn.innerHTML = `Add <i class="fa-solid fa-plus"></i>`;
+//   addBtn.classList.remove("btn-warning");
+//   addBtn.classList.add("btn-success");
+// }
 
 async function editCategory() {
   const category = {
@@ -236,91 +314,92 @@ async function editCategory() {
   };
 
   try {
-    const response = await fetch(`${baseURL}/api/categories/${categoryId}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-      body: JSON.stringify(category),
-    });
+    await apiRequest(`/api/categories/${categoryId}`, "PUT", category, true);
 
-    console.log("Edit/Update Category Response", response);
+    // await displayAllCategories();
+    // clearForm();
+    resetEditUI();
 
-    let data;
-    if (response.status === 204) {
-      console.log("Success, no content returned");
-      return;
-    } else {
-      data = await response.json();
-    }
-
-    console.log("Edit/Update Category Data", data);
-
-    if (response.ok) {
-      localStorage.setItem("Edit/Update Category Data", JSON.stringify(data));
-    } else {
-      let msg = Object.values(data.errors)[0][0] || data.message || "";
-
-      showModal();
-      document.querySelector(".modal-body ul").innerHTML = `<li>
-      <i class="fa-regular fa-circle-right p-2"></i>${msg}
-    </li>`;
-    }
+    return true;
   } catch (error) {
     console.error("Edit/Update Category Error:", error);
-    showModal();
-    document.querySelector(".modal-body ul").innerHTML = `<li>
-      <i class="fa-regular fa-circle-right p-2"></i>Network error. Try again.
-    </li>`;
+    return false;
   }
+}
+
+function resetEditUI() {
   addBtn.innerHTML = `Add <i class="fa-solid fa-plus"></i>`;
+  isEditMode = false;
   addBtn.classList.remove("btn-warning");
   addBtn.classList.add("btn-success");
+  categoryId = null;
 }
+
+// async function deleteCategory(id) {
+//   try {
+//     const response = await fetch(`${baseURL}/api/categories/${id}`, {
+//       method: "DELETE",
+//       headers: {
+//         Authorization: `Bearer ${localStorage.getItem("token")}`,
+//       },
+//     });
+
+//     console.log("Delete Category Response", response);
+//     console.log("Delete Category Response Status", response.status);
+
+//     if (response.status === 204) {
+//       await displayAllCategories();
+//       return;
+//     } else {
+//       const data = await response.json();
+//       let msg = Object.values(data.errors)[0][0] || data.message || "";
+
+//       showModal();
+//       document.querySelector(".modal-body ul").innerHTML = `<li>
+//       <i class="fa-regular fa-circle-right p-2"></i>${msg}
+//     </li>`;
+//     }
+//   } catch (error) {
+//     console.error("Delete Category Error:", error);
+//     showModal();
+//     document.querySelector(".modal-body ul").innerHTML = `<li>
+//       <i class="fa-regular fa-circle-right p-2"></i>Network error. Try again.
+//     </li>`;
+//   }
+// }
 
 async function deleteCategory(id) {
   try {
-    const response = await fetch(`${baseURL}/api/categories/${id}`, {
-      method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    });
-
-    console.log("Delete Category Response", response);
-    console.log("Delete Category Response Status", response.status);
-
-    if (response.status === 204) {
-      await displayAllCategories();
-      return;
-    } else {
-      const data = await response.json();
-      let msg = Object.values(data.errors)[0][0] || data.message || "";
-
-      showModal();
-      document.querySelector(".modal-body ul").innerHTML = `<li>
-      <i class="fa-regular fa-circle-right p-2"></i>${msg}
-    </li>`;
-    }
+    await apiRequest(`/api/categories/${id}`, "DELETE", null, true);
+    await displayAllCategories();
   } catch (error) {
     console.error("Delete Category Error:", error);
-    showModal();
-    document.querySelector(".modal-body ul").innerHTML = `<li>
-      <i class="fa-regular fa-circle-right p-2"></i>Network error. Try again.
-    </li>`;
   }
 }
 
 async function addOrEdit() {
   if (validateCategoryName() === true && validateCategoryDesc() === true) {
-    if (addBtn.innerHTML.includes("Add")) {
-      await addCategory();
-    } else if (addBtn.innerHTML.includes("Edit")) {
-      await editCategory();
+    // if (addBtn.innerHTML.includes("Add")) {
+    //   await addCategory();
+    // } else if (addBtn.innerHTML.includes("Edit")) {
+    //   await editCategory();
+    // }
+
+    let success = false;
+
+    if (isEditMode) {
+      success = await editCategory();
+    } else {
+      success = await addCategory();
     }
-    await displayAllCategories();
-    clearForm();
+
+    if (!success) {
+      showErrMsg("Add/Edit failed. Please try again.");
+      return;
+    } else {
+      await displayAllCategories();
+      clearForm();
+    }
   } else {
     showModal();
   }
@@ -329,7 +408,6 @@ async function addOrEdit() {
 function clearForm() {
   categoryNameInput.value = "";
   categoryDescInput.value = "";
-  categoryId = undefined;
 }
 
 // async function displayAllCategories() {
@@ -381,8 +459,11 @@ async function displayAllCategories() {
   try {
     const data = await apiRequest("/api/categories", "GET", null, true);
 
-    localStorage.setItem("Display Category Data", JSON.stringify(data));
-
+    if (!Array.isArray(data)) {
+      throw new Error("Invalid format");
+    }
+    // localStorage.setItem("Display Category Data", JSON.stringify(data));
+    categories = data;
     renderCategories(data);
 
     if (data.length === 0) {
@@ -392,6 +473,10 @@ async function displayAllCategories() {
     }
   } catch (error) {
     console.error("Display Category Error:", error);
+    showErrMsg("Could not load categories. Please try again.");
+    if (tableSearchWrapper) {
+      tableSearchWrapper.classList.add("d-none");
+    }
   }
 }
 
@@ -408,7 +493,7 @@ function renderCategories(arr) {
         <td>
       <button
         class="btn btn-warning"
-        onclick="editForm(${i},${arr[i].id})">
+        onclick="editForm(${i})">
         <i class="fa-solid fa-pen-to-square"></i>
       </button>
 

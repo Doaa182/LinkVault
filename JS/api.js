@@ -31,8 +31,10 @@ async function apiRequest(endpoint, method, body = null, auth = false) {
     }
 
     if (!response.ok) {
-      let msg = Object.values(data.errors)[0][0] || data.message || "";
-
+      //   let msg = Object.values(data?.errors)[0][0] || data?.message || "err";
+      let msg = data?.errors
+        ? Object.values(data.errors)?.[0]?.[0]
+        : data?.message || "err";
       //   showModal();
       //   document.querySelector(".modal-body ul").innerHTML = `<li>
       //   <i class="fa-regular fa-circle-right p-2"></i>${msg}
