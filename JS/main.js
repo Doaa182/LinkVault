@@ -7,7 +7,7 @@ const signUpEmailInput = document.getElementById("signUpEmail");
 const signUpPassInput = document.getElementById("signUpPass");
 
 const welcomeMsg = document.getElementById("welcomeMsg");
-const baseURL = "http://linkvaultapi.runasp.net";
+// const baseURL = "http://linkvaultapi.runasp.net";
 
 async function signIn() {
   const loggedInUser = {
@@ -332,44 +332,66 @@ function clearForm() {
   categoryId = undefined;
 }
 
+// async function displayAllCategories() {
+//   try {
+//     const response = await fetch(`${baseURL}/api/categories`, {
+//       method: "GET",
+//       headers: {
+//         Authorization: `Bearer ${localStorage.getItem("token")}`,
+//       },
+//     });
+
+//     console.log("Display Category Response", response);
+
+//     const data = await response.json();
+
+//     console.log("Display Category Data", data);
+
+//     if (response.ok) {
+//       localStorage.setItem("Display Category Data", JSON.stringify(data));
+//       renderCategories(data);
+
+//       if (data.length === 0) {
+//         tableSearchWrapper.classList.add("d-none");
+//       } else {
+//         tableSearchWrapper.classList.remove("d-none");
+//       }
+//     } else {
+//       let msg = Object.values(data.errors)[0][0] || data.message || "";
+
+//       //   showModal();
+//       //   document.querySelector(".modal-body ul").innerHTML = `<li>
+//       //   <i class="fa-regular fa-circle-right p-2"></i>${msg}
+//       // </li>`;
+
+//       showErrMsg(msg);
+//     }
+//   } catch (error) {
+//     console.error("Display Category Error:", error);
+//     // showModal();
+//     // document.querySelector(".modal-body ul").innerHTML = `<li>
+//     //   <i class="fa-regular fa-circle-right p-2"></i>Network error. Try again.
+//     // </li>`;
+
+//     showErrMsg("Network error. Try again.");
+//   }
+// }
+
 async function displayAllCategories() {
   try {
-    const response = await fetch(`${baseURL}/api/categories`, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    });
+    const data = await apiRequest("/api/categories", "GET", null, true);
 
-    console.log("Display Category Response", response);
+    localStorage.setItem("Display Category Data", JSON.stringify(data));
 
-    const data = await response.json();
+    renderCategories(data);
 
-    console.log("Display Category Data", data);
-
-    if (response.ok) {
-      localStorage.setItem("Display Category Data", JSON.stringify(data));
-      renderCategories(data);
-
-      if (data.length === 0) {
-        tableSearchWrapper.classList.add("d-none");
-      } else {
-        tableSearchWrapper.classList.remove("d-none");
-      }
+    if (data.length === 0) {
+      tableSearchWrapper.classList.add("d-none");
     } else {
-      let msg = Object.values(data.errors)[0][0] || data.message || "";
-
-      showModal();
-      document.querySelector(".modal-body ul").innerHTML = `<li>
-      <i class="fa-regular fa-circle-right p-2"></i>${msg}
-    </li>`;
+      tableSearchWrapper.classList.remove("d-none");
     }
   } catch (error) {
     console.error("Display Category Error:", error);
-    showModal();
-    document.querySelector(".modal-body ul").innerHTML = `<li>
-      <i class="fa-regular fa-circle-right p-2"></i>Network error. Try again.
-    </li>`;
   }
 }
 
@@ -403,30 +425,30 @@ function renderCategories(arr) {
   document.querySelector("tbody").innerHTML = concatCategories;
 }
 
-// Modal
-var modal = document.getElementById("exampleModal");
+// // Modal
+// var modal = document.getElementById("exampleModal");
 
-// Show modal
-function showModal() {
-  modal.classList.add("show", "d-block");
-  modal.classList.remove("d-none", "fade");
-  modal.style.backgroundColor = "rgba(0,0,0,0.5)";
-}
+// // Show modal
+// function showModal() {
+//   modal.classList.add("show", "d-block");
+//   modal.classList.remove("d-none", "fade");
+//   modal.style.backgroundColor = "rgba(0,0,0,0.5)";
+// }
 
-// Hide modal
-function hideModal() {
-  modal.classList.remove("show", "d-block");
-  modal.classList.add("d-none", "fade");
-}
+// // Hide modal
+// function hideModal() {
+//   modal.classList.remove("show", "d-block");
+//   modal.classList.add("d-none", "fade");
+// }
 
-var closeBtn = document.querySelector(".btn-close");
+// var closeBtn = document.querySelector(".btn-close");
 
-// Modal Close Btn
-closeBtn.addEventListener("click", hideModal);
+// // Modal Close Btn
+// closeBtn.addEventListener("click", hideModal);
 
-modal.addEventListener("click", function (e) {
-  if (e.target === modal) hideModal();
-});
+// modal.addEventListener("click", function (e) {
+//   if (e.target === modal) hideModal();
+// });
 
 // Validation
 function validateCategoryName() {
