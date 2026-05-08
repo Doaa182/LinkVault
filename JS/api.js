@@ -1,5 +1,12 @@
 const baseURL = "http://linkvaultapi.runasp.net";
 
+function signOut() {
+  localStorage.removeItem("token");
+  localStorage.removeItem("currentSessionUser");
+  // window.open("./index.html", "_self");
+  window.location.href = "./index.html";
+}
+
 async function apiRequest(endpoint, method, body = null, auth = false) {
   try {
     const requestInit = {
@@ -28,6 +35,11 @@ async function apiRequest(endpoint, method, body = null, auth = false) {
     }
 
     if (!response.ok) {
+      if (response.status === 401) {
+        signOut();
+        return;
+      }
+
       let msg = data?.errors
         ? Object.values(data.errors)?.[0]?.[0]
         : data?.message || "err";

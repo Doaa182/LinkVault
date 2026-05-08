@@ -1,3 +1,15 @@
+document.addEventListener("DOMContentLoaded", function () {
+  redirectToSignIn();
+
+  if (localStorage.getItem("token")) {
+    getUserEmailFromJWT(localStorage.getItem("token"));
+    console.log(
+      "User Email:",
+      getUserEmailFromJWT(localStorage.getItem("token")),
+    );
+  }
+});
+
 const categoryNameInput = document.getElementById("CategoryName");
 const categoryDescInput = document.getElementById("CategoryDescription");
 
