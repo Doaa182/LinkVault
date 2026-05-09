@@ -5,7 +5,8 @@ function redirectToSignIn() {
     window.location.pathname !== "/" &&
     !window.location.pathname.includes("sign_up.html")
   ) {
-    window.location.href = "./index.html";
+    // window.location.href = "./index.html";
+    window.location.replace("./index.html");
   }
 }
 
@@ -139,7 +140,8 @@ async function signUp() {
     );
     // window.open("./index.html", "_self");
     // window.open("./home_page.html", "_self");
-    window.location.href = "./home_page.html";
+    // window.location.href = "./home_page.html";
+    window.location.replace("./home_page.html");
 
     //else{   document.getElementById("invalidSignUpMsg").innerHTML =
     //         `<p class="text-danger text-center mb-4">${msg}</p>`;

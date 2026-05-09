@@ -1,0 +1,46 @@
+.navbar .nav-link {
+  color: #bdbdbd;
+  transition: 0.3s ease;
+}
+
+.navbar .nav-link:hover {
+  color: #ffffff;
+}
+
+.navbar .nav-link.active {
+  color: #ffffff;
+  border-bottom: 2px solid #ffffff;
+}
+
+.navbar-toggler {
+  border: 1px solid #444444;
+  background-color: #1a1a1a;
+}
+
+.navbar-toggler-icon {
+  filter: invert(1);
+}
+
+.navbar .fa-sign-out-alt,
+.navbar .fa-sign-out-alt + span {
+  color: #bdbdbd;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+div[onclick="signOut()"] {
+  padding: 5px 10px;
+  border-radius: 6px;
+  transition: 0.3s;
+}
+
+div[onclick="signOut()"]:hover,
+div[onclick="signOut()"]:hover span,
+div[onclick="signOut()"]:hover i {
+  background-color: #1f1f1f;
+  color: #ffffff;
+}
+
+.navbar-collapse {
+  padding: 10px;
+}

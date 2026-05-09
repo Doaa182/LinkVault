@@ -4,7 +4,8 @@ function signOut() {
   localStorage.removeItem("token");
   localStorage.removeItem("currentSessionUser");
   // window.open("./index.html", "_self");
-  window.location.href = "./index.html";
+  // window.location.href = "./index.html";
+  window.location.replace("./index.html");
 }
 
 async function apiRequest(endpoint, method, body = null, auth = false) {

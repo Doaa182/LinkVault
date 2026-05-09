@@ -31,13 +31,12 @@
     <!-- css links -->
     <link rel="stylesheet" href="./CSS/bootstrap.min.css" />
     <link rel="stylesheet" href="./CSS/media_query.css" />
+    <link rel="stylesheet" href="CSS/components.css" />
     <link rel="stylesheet" href="./CSS/categories.css" />
   </head>
 
   <body>
-    <header class="pt-3 pe-4 position-absolute end-0">
-      <i class="fas fa-sign-out-alt fs-2 fw-semibold" onclick="signOut()"></i>
-    </header>
+    <nav></nav>
 
     <div class="h1-wapper text-center text-white">
       <h1 class="position-relative d-inline-block mb-3 mt-2">All Categories</h1>
@@ -111,6 +110,12 @@
           <tbody></tbody>
         </table>
       </div>
+
+      <div class="emptyCategoriesState text-center py-5 d-none">
+        <i class="fa-solid fa-folder-open fa-4x mb-3 text-secondary"></i>
+
+        <h3>No Categories Yet</h3>
+      </div>
     </main>
 
     <!-- modal -->
@@ -166,6 +171,7 @@
     <script src="./JS/ui.js"></script>
     <script src="./JS/api.js"></script>
     <script src="./JS/auth.js"></script>
+    <script src="./JS/components.js"></script>
     <script src="./JS/main.js"></script>
   </body>
 </html>

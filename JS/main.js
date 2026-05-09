@@ -1,5 +1,8 @@
 document.addEventListener("DOMContentLoaded", function () {
   redirectToSignIn();
+  // renderNavbar("categories");
+
+  renderNavbar();
 
   if (localStorage.getItem("token")) {
     getUserEmailFromJWT(localStorage.getItem("token"));
@@ -16,6 +19,7 @@ const categoryDescInput = document.getElementById("CategoryDescription");
 const addBtn = document.querySelector(".add-btn");
 let categoryId = null;
 const tableSearchWrapper = document.querySelector(".table-search-wrap");
+const emptyCategoriesState = document.querySelector(".emptyCategoriesState");
 let isEditMode = false;
 let categories = [];
 
@@ -142,8 +146,10 @@ async function displayAllCategories() {
 
     if (data.length === 0) {
       tableSearchWrapper.classList.add("d-none");
+      emptyCategoriesState.classList.remove("d-none");
     } else {
       tableSearchWrapper.classList.remove("d-none");
+      emptyCategoriesState.classList.add("d-none");
     }
   } catch (error) {
     console.error("Display Category Error:", error);
