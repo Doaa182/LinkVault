@@ -45,10 +45,17 @@ h1:hover::after {
   border-color: #ced4da;
 }
 
+.form-select:focus,
+.form-check-input:focus,
 .form-control:focus {
   border-color: var(--very-soft-red);
   box-shadow: 0 0 0 0.25rem rgba(228, 177, 176, 0.25);
   color: var(--very-dark-grayish-blue);
+}
+
+.form-check-input:checked {
+  background-color: var(--very-soft-red);
+  border-color: var(--very-soft-red);
 }
 
 .fa-circle-exclamation {

@@ -7,6 +7,13 @@ const tableWrapper = document.querySelector(".table-search-wrap");
 const emptyBookmarksState = document.querySelector(".emptyBookmarksState");
 
 const addBtn = document.querySelector(".add-btn");
+const filterCategory = document.getElementById("filterCategory");
+const filterSearch = document.getElementById("filterSearch");
+const filterFavorite = document.getElementById("filterFavorite");
+const filterArchived = document.getElementById("filterArchived");
+
+let bookmarks = [];
+let categories = [];
 
 let isEditMode = false;
 let bookmarkId = null;
@@ -20,13 +27,15 @@ async function loadCategories() {
     categorySelect.innerHTML = data
       .map((c) => `<option value="${c.id}">${c.categoryName}</option>`)
       .join("");
+
+    filterCategory.innerHTML = `
+      <option value="">All Categories</option>
+      ${data.map((c) => `<option value="${c.id}">${c.categoryName}</option>`).join("")}
+    `;
   } catch (err) {
     console.error("Categories error:", err);
   }
 }
-
-let bookmarks = [];
-let categories = [];
 
 // CRUDs
 async function addBookmark() {
@@ -47,11 +56,11 @@ async function addBookmark() {
 
   try {
     await apiRequest("/api/bookmarks", "POST", bookmark, true);
-
     clearForm();
-    displayAllBookmarks();
+    return true;
   } catch (err) {
     console.error("Add bookmark error:", err);
+    return false;
   }
 }
 
@@ -82,6 +91,56 @@ async function displayAllBookmarks() {
   }
 }
 
+async function toggleFavorite(id) {
+  const bookmark = bookmarks.find((b) => b.id === id);
+  if (!bookmark) return;
+
+  bookmark.isFavorite = !bookmark.isFavorite;
+
+  renderBookmarks(bookmarks);
+
+  const updatedBookmark = {
+    url: bookmark.url,
+    title: bookmark.title,
+    categoryId: bookmark.categoryId,
+    isFavorite: bookmark.isFavorite,
+    isArchived: bookmark.isArchived,
+  };
+
+  try {
+    await apiRequest(`/api/bookmarks/${id}`, "PUT", updatedBookmark, true);
+  } catch (err) {
+    bookmark.isFavorite = !bookmark.isFavorite;
+    renderBookmarks(bookmarks);
+    console.error(err);
+  }
+}
+
+async function toggleArchived(id) {
+  const bookmark = bookmarks.find((b) => b.id === id);
+  if (!bookmark) return;
+
+  bookmark.isArchived = !bookmark.isArchived;
+
+  renderBookmarks(bookmarks);
+
+  const updatedBookmark = {
+    url: bookmark.url,
+    title: bookmark.title,
+    categoryId: bookmark.categoryId,
+    isFavorite: bookmark.isFavorite,
+    isArchived: bookmark.isArchived,
+  };
+
+  try {
+    await apiRequest(`/api/bookmarks/${id}`, "PUT", updatedBookmark, true);
+  } catch (err) {
+    bookmark.isArchived = !bookmark.isArchived;
+    renderBookmarks(bookmarks);
+    console.error(err);
+  }
+}
+
 function renderBookmarks(arr) {
   if (!tbody) return;
 
@@ -96,6 +155,18 @@ function renderBookmarks(arr) {
           <a href="${arr[i].url}" target="_blank">
             ${arr[i].title}
           </a>
+           <button type="button" onclick="toggleFavorite(${arr[i].id})" class="btn btn-link p-0 ps-3">${
+             arr[i].isFavorite
+               ? `<i class="fa-solid fa-heart text-danger "></i>`
+               : `<i class="fa-regular fa-heart text-danger "></i>`
+           }</button>
+         <button type="button" onclick="toggleArchived(${arr[i].id})" class="btn btn-link p-0 ps-2 ">
+          ${
+            arr[i].isArchived
+              ? `<i class="fa-solid fa-bookmark text-warning "></i>`
+              : `<i class="fa-regular fa-bookmark text-warning "></i>`
+          }
+        </button>
         </td>
 
         <td>${arr[i].categoryName || "-"}</td>
@@ -193,6 +264,7 @@ async function addOrEditBookmark() {
   }
 
   if (success) {
+    resetEditUI();
     clearForm();
     displayAllBookmarks();
   }
@@ -246,4 +318,45 @@ function changeBookmarkInputStyle(input) {
     input.classList.add("is-invalid");
     input.classList.remove("is-valid");
   }
+}
+
+//Filters
+function clearFilters() {
+  filterCategory.value = "";
+  filterSearch.value = "";
+  filterFavorite.checked = false;
+  filterArchived.checked = false;
+
+  renderBookmarks(bookmarks);
+}
+
+function applyFilters() {
+  let filtered = [...bookmarks];
+
+  // Category filter
+  if (filterCategory.value) {
+    filtered = filtered.filter((b) => b.categoryId == filterCategory.value);
+  }
+
+  // Search filter
+  const searchValue = filterSearch.value.trim().toLowerCase();
+  if (searchValue) {
+    filtered = filtered.filter(
+      (b) =>
+        b.title.toLowerCase().includes(searchValue) ||
+        b.url.toLowerCase().includes(searchValue),
+    );
+  }
+
+  // Favorites filter
+  if (filterFavorite.checked) {
+    filtered = filtered.filter((b) => b.isFavorite);
+  }
+
+  // Archived filter
+  if (filterArchived.checked) {
+    filtered = filtered.filter((b) => b.isArchived);
+  }
+
+  renderBookmarks(filtered);
 }

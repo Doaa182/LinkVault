@@ -87,6 +87,40 @@
         </div>
       </div>
 
+      <div
+        class="filter-bar mb-3 d-flex gap-2 flex-wrap justify-content-center align-items-center"
+      >
+        <!-- Category -->
+        <select id="filterCategory" class="form-select w-auto">
+          <option value="">All Categories</option>
+        </select>
+
+        <!-- Search -->
+        <input
+          type="text"
+          id="filterSearch"
+          class="form-control w-auto"
+          placeholder="Search title or URL"
+        />
+
+        <!-- Favorites -->
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="filterFavorite" />
+          <label class="form-check-label">Favorites only</label>
+        </div>
+
+        <!-- Archived -->
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="filterArchived" />
+          <label class="form-check-label">Archived only</label>
+        </div>
+
+        <!-- Buttons -->
+        <button class="btn btn-primary" onclick="applyFilters()">Apply</button>
+        <button class="btn btn-secondary" onclick="clearFilters()">
+          Clear
+        </button>
+      </div>
       <!-- table -->
       <div class="container p-0 table-search-wrap d-none">
         <table class="table text-center table-hover">
