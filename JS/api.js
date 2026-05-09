@@ -1,4 +1,4 @@
-const baseURL = "http://linkvaultapi.runasp.net";
+const baseURL = "https://linkvaultapi.runasp.net";
 
 function signOut() {
   localStorage.removeItem("token");
