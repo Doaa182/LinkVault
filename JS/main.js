@@ -1,16 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
   redirectToSignIn();
-  // renderNavbar("categories");
-
   renderNavbar();
-
-  if (localStorage.getItem("token")) {
-    getUserEmailFromJWT(localStorage.getItem("token"));
-    console.log(
-      "User Email:",
-      getUserEmailFromJWT(localStorage.getItem("token")),
-    );
-  }
 });
 
 const categoryNameInput = document.getElementById("CategoryName");

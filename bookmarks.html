@@ -21,10 +21,10 @@
     />
 
     <!-- title and favicon -->
-    <title>Registration App | Categories Page</title>
+    <title>Registration App | Bookmarks Page</title>
     <link
       rel="shortcut icon"
-      href="./Assets/categories-icon.png"
+      href="./Assets/bookmark-icon.png"
       type="image/png"
     />
 
@@ -39,82 +39,75 @@
     <nav></nav>
 
     <div class="h1-wapper text-center text-white">
-      <h1 class="position-relative d-inline-block mb-3 mt-2">All Categories</h1>
+      <h1 class="position-relative d-inline-block mb-3 mt-2">All Bookmarks</h1>
     </div>
 
     <main>
       <div class="container mt-5 mb-4 px-3 py-4 middle-container">
-        <div class="row mb-2">
-          <div class="col-12">
-            <div class="mb-3 position-relative w-75 m-auto">
-              <label for="CategoryName" class="form-label mb-2 fw-semibold">
-                Category Name
-              </label>
-              <input
-                type="text"
-                class="form-control"
-                id="CategoryName"
-                placeholder="e.g. Productivity"
-                onkeyup="changeInputStyle(this)"
-              />
-            </div>
-          </div>
+        <!-- Title -->
+        <div class="mb-3 w-75 m-auto">
+          <label class="form-label fw-semibold">Bookmark Title</label>
+          <input
+            id="bookmarkTitle"
+            type="text"
+            class="form-control"
+            placeholder="e.g. Facebook"
+            onkeyup="changeBookmarkInputStyle(this)"
+          />
         </div>
 
-        <div class="row mb-2">
-          <div class="col-12">
-            <div class="mb-3 position-relative w-75 m-auto">
-              <label
-                for="CategoryDescription"
-                class="form-label mb-2 fw-semibold"
-              >
-                Category Description
-              </label>
-              <input
-                type="text"
-                class="form-control"
-                id="CategoryDescription"
-                placeholder="e.g. General tools, tips, and resources to improve efficiency and daily workflow."
-                onkeyup="changeInputStyle(this)"
-              />
-            </div>
-          </div>
+        <!-- URL -->
+        <div class="mb-3 w-75 m-auto">
+          <label class="form-label fw-semibold">Bookmark URL</label>
+          <input
+            id="bookmarkUrl"
+            type="text"
+            class="form-control"
+            placeholder="e.g. https://facebook.com"
+            onkeyup="changeBookmarkInputStyle(this)"
+            onchange="changeBookmarkInputStyle(this)"
+          />
+        </div>
+
+        <!-- Category dropdown -->
+        <div class="mb-3 w-75 m-auto">
+          <label class="form-label fw-semibold">Bookmark Category</label>
+          <select id="bookmarkCategory" class="form-control"></select>
         </div>
 
         <!-- add btn -->
-        <div class="row">
-          <div class="col">
-            <div class="btn-wrapper text-center">
-              <button
-                type="button"
-                class="btn btn-success px-5 add-btn"
-                onclick="addOrEdit()"
-              >
-                Add
-                <i class="fa-solid fa-plus"></i>
-              </button>
-            </div>
-          </div>
+        <div class="text-center">
+          <button
+            class="btn btn-success px-5 add-btn"
+            onclick="addOrEditBookmark()"
+          >
+            Add Bookmark
+            <i class="fa-solid fa-plus"></i>
+          </button>
         </div>
       </div>
 
-      <!-- table & search bar -->
+      <!-- table -->
       <div class="container p-0 table-search-wrap d-none">
         <table class="table text-center table-hover">
           <thead>
-            <th>Index</th>
-            <th>Category Name</th>
-            <th>Category Description</th>
-            <th>Actions</th>
+            <tr>
+              <th>Index</th>
+              <th>Bookmark Title</th>
+              <th>Bookmarks Category</th>
+              <th>Actions</th>
+            </tr>
           </thead>
-          <tbody></tbody>
+
+          <tbody id="bookmarksTableBody"></tbody>
         </table>
       </div>
+
       <!-- empty state -->
-      <div class="emptyCategoriesState text-center py-5 d-none">
+      <div class="emptyBookmarksState text-center py-5 d-none">
         <i class="fa-solid fa-folder-open fa-4x mb-3 text-secondary"></i>
 
-        <h3>No Categories Yet</h3>
+        <h3>No Bookmarks Yet</h3>
       </div>
     </main>
 
@@ -144,21 +137,18 @@
           </div>
 
           <div class="modal-body p-0">
-            <!-- <p class="pb-2 mb-0">
-              Category Name or Description is not valid, Please follow the rules
-              below :
-            </p> -->
-
             <ul class="list-unstyled">
               <li>
                 <i class="fa-regular fa-circle-right p-2"></i>
-                Category name must contain at least 3 characters. Letters,
-                numbers, underscores, and spaces are allowed.
+                Title is required.
               </li>
               <li>
                 <i class="fa-regular fa-circle-right p-2"></i>
-                Category description must contain at least 1 character and can
-                contain up to 300 characters.
+                URL must be valid (http/https).
+              </li>
+              <li>
+                <i class="fa-regular fa-circle-right p-2"></i>
+                Category must be selected.
               </li>
             </ul>
           </div>
@@ -172,6 +162,6 @@
     <script src="./JS/api.js"></script>
     <script src="./JS/auth.js"></script>
     <script src="./JS/components.js"></script>
-    <script src="./JS/main.js"></script>
+    <script src="./JS/bookmarks.js"></script>
   </body>
 </html>

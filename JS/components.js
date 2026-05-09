@@ -2,10 +2,14 @@ function renderNavbar() {
   const path = window.location.pathname;
   let activePage = "";
   if (path.includes("categories")) {
-    activePage = "categories" || "";
+    activePage = "categories";
   }
   if (path.includes("home")) {
-    activePage = "home" || "";
+    activePage = "home";
+  }
+
+  if (path.includes("bookmark")) {
+    activePage = "bookmark";
   }
 
   const token = localStorage.getItem("token");
@@ -62,13 +66,22 @@ function renderNavbar() {
                 >Categories</a
               >
             </li>
+
+            <li class="nav-item">
+              <a
+                class="nav-link fw-medium  ${activePage === "bookmark" ? "active" : ""}"
+                aria-current="page"
+                href="./bookmarks.html"
+                >Bookmarks</a
+              >
+            </li>
             
           </ul>
           <div  onclick="signOut()">
             <i
-              class="fas fa-sign-out-alt fs-4 fw-semibold"
-            ></i
-            ><span class="fs-5 fw-semibold ps-2">Sign Out</span>
+              class="fas fa-sign-out-alt fs-4 fw-semibold">
+             </i>
+            <span class="fs-5 fw-semibold ps-2">Sign Out</span>
           </div>
         </div>
       </div>

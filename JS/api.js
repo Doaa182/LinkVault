@@ -2,7 +2,7 @@ const baseURL = "http://linkvaultapi.runasp.net";
 
 function signOut() {
   localStorage.removeItem("token");
-  localStorage.removeItem("currentSessionUser");
+  // localStorage.removeItem("currentSessionUser");
   // window.open("./index.html", "_self");
   // window.location.href = "./index.html";
   window.location.replace("./index.html");
