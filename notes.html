@@ -1,0 +1,142 @@
+<!doctype html>
+
+<html>
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    />
+
+    <title>Registration App | Notes Page</title>
+
+    <link
+      rel="shortcut icon"
+      href="./Assets/note-icon.png"
+      type="image/png"
+    />
+
+    <link rel="stylesheet" href="./CSS/bootstrap.min.css" />
+
+    <link rel="stylesheet" href="./CSS/media_query.css" />
+
+    <link rel="stylesheet" href="./CSS/components.css" />
+
+    <link rel="stylesheet" href="./CSS/shared.css" />
+  </head>
+
+  <body>
+    <nav></nav>
+
+    <div class="h1-wapper text-center text-white">
+      <h1 class="position-relative d-inline-block mb-3 mt-2">All Notes</h1>
+    </div>
+
+    <main>
+      <div class="container mt-5 mb-4 px-3 py-4 middle-container">
+        <!-- Title -->
+        <div class="mb-3 w-75 m-auto">
+          <label class="form-label fw-semibold"> Note Title </label>
+
+          <input
+            id="noteTitle"
+            type="text"
+            class="form-control"
+            placeholder="Enter note title"
+          />
+        </div>
+
+        <!-- Content -->
+        <div class="mb-3 w-75 m-auto">
+          <label class="form-label fw-semibold"> Note Content </label>
+
+          <textarea
+            id="noteContent"
+            class="form-control"
+            rows="4"
+            placeholder="Enter note content"
+          ></textarea>
+        </div>
+
+        <!-- Category -->
+        <div class="mb-3 w-75 m-auto">
+          <label class="form-label fw-semibold"> Note Category </label>
+
+          <select id="noteCategory" class="form-control"></select>
+        </div>
+
+        <!-- Add Button -->
+        <div class="text-center">
+          <button
+            class="btn btn-success px-5 add-btn"
+            onclick="addOrEditNote()"
+          >
+            Add Note
+            <i class="fa-solid fa-plus"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Filter -->
+      <div class="text-center mb-3">
+        <select
+          id="filterCategory"
+          class="form-select w-auto d-inline-block"
+        ></select>
+
+        <button class="btn btn-primary" onclick="applyFilter()">Apply</button>
+
+        <button class="btn btn-secondary" onclick="clearFilter()">Clear</button>
+      </div>
+
+      <!-- Table -->
+      <div class="container">
+        <table class="table table-hover text-center">
+          <thead>
+            <tr>
+              <th>Index</th>
+              <th>Title</th>
+              <th>Content</th>
+              <th>Category</th>
+              <th>Pinned</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+
+          <tbody id="notesTableBody"></tbody>
+        </table>
+      </div>
+
+      <!-- Empty State -->
+      <div class="emptyBookmarksState text-center py-5 d-none">
+        <i class="fa-solid fa-folder-open fa-4x mb-3 text-secondary"></i>
+
+        <h3>No Notes Yet</h3>
+      </div>
+    </main>
+
+    <script src="./JS/bootstrap.bundle.min.js"></script>
+
+    <script src="./JS/ui.js"></script>
+
+    <script src="./JS/api.js"></script>
+
+    <script src="./JS/auth.js"></script>
+
+    <script src="./JS/components.js"></script>
+
+    <script src="./JS/notes.js"></script>
+  </body>
+</html>

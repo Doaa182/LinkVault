@@ -141,6 +141,14 @@ h1:hover::after {
   background-color: rgba(228, 177, 176, 0.1);
 }
 
+i.fa-thumbtack.fa-solid {
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+  -moz-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  -o-transform: rotate(45deg);
+}
+
 :root {
   --bg-main: #f7ecde;
 

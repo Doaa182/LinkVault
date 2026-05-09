@@ -141,6 +141,10 @@ async function toggleArchived(id) {
   }
 }
 
+window.openBookmark = function (id) {
+  window.location.href = `bookmark_details.html?id=${id}`;
+};
+
 function renderBookmarks(arr) {
   if (!tbody) return;
 
@@ -152,9 +156,14 @@ function renderBookmarks(arr) {
         <td>${arr.length - i}</td>
 
         <td>
-          <a href="${arr[i].url}" target="_blank">
+          
+
+         
+
+           <a href="${arr[i].url}" target="_blank">
             ${arr[i].title}
           </a>
+
            <button type="button" onclick="toggleFavorite(${arr[i].id})" class="btn btn-link p-0 ps-3">${
              arr[i].isFavorite
                ? `<i class="fa-solid fa-heart text-danger "></i>`
@@ -178,7 +187,13 @@ function renderBookmarks(arr) {
           <button onclick="deleteBookmark(${arr[i].id})" class="btn btn-danger ">
             <i class="fa-solid fa-trash-can"></i>
           </button>
+
+        <button type="button" class="btn btn-secondary"  onclick="openBookmark(${arr[i].id})">
+                <i class="fa-solid fa-eye"></i>
+                </button>
         </td>
+
+        
       </tr>
     `;
   }

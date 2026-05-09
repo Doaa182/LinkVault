@@ -5,7 +5,6 @@ function redirectToSignIn() {
     window.location.pathname !== "/" &&
     !window.location.pathname.includes("sign_up.html")
   ) {
-    // window.location.href = "./index.html";
     window.location.replace("./index.html");
   }
 }
@@ -17,7 +16,6 @@ function redirectToHome() {
       window.location.pathname === "/" ||
       window.location.pathname.includes("sign_up.html"))
   ) {
-    // window.location.href = "./home_page.html";
     window.location.replace("./home_page.html");
   }
 }
@@ -81,8 +79,6 @@ async function signIn() {
 
     showAuthMsg("invalidSignInMsg", "Successfully logged in.", "success");
 
-    // window.open("./home_page.html", "_self");
-    // window.location.href = "./home_page.html";
     window.location.replace("./home_page.html");
 
     // else {
@@ -126,23 +122,12 @@ async function signUp() {
 
     localStorage.setItem("token", data.token);
 
-    // localStorage.setItem(
-    //   "currentSessionUser",
-    //   JSON.stringify({
-    //     firstName: user.firstName,
-    //     lastName: user.lastName,
-    //     email: user.email,
-    //   }),
-    // );
-
     showAuthMsg(
       "invalidSignUpMsg",
       "Account created! You can now log in.",
       "success",
     );
-    // window.open("./index.html", "_self");
-    // window.open("./home_page.html", "_self");
-    // window.location.href = "./home_page.html";
+
     window.location.replace("./home_page.html");
 
     //else{   document.getElementById("invalidSignUpMsg").innerHTML =
@@ -168,13 +153,6 @@ function validateUserName(signUpNameInpVal) {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-  // const currentSessionUser = JSON.parse(
-  //   localStorage.getItem("currentSessionUser"),
-  // );
-
-  // if (welcomeMsg && currentSessionUser) {
-  //   welcomeMsg.innerHTML = `<h1 class="fw-bolder text-uppercase text-white text-center">Welcome ${currentSessionUser.firstName} ${currentSessionUser.lastName}</h1>`;
-  // } else
   if (welcomeMsg) {
     welcomeMsg.innerHTML = `<h1 class="fw-bolder text-uppercase text-white text-center">Welcome</h1>`;
   }

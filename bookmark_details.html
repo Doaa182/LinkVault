@@ -1,0 +1,137 @@
+<!doctype html>
+
+<html>
+  <head>
+    <!-- meta tags -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- google fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- fontawesome icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    />
+
+    <!-- title and favicon -->
+    <title>Registration App | Bookmark Details Page</title>
+    <link
+      rel="shortcut icon"
+      href="./Assets/bookmark-icon.png"
+      type="image/png"
+    />
+
+    <!-- css links -->
+    <link rel="stylesheet" href="./CSS/bootstrap.min.css" />
+    <link rel="stylesheet" href="./CSS/media_query.css" />
+    <link rel="stylesheet" href="CSS/components.css" />
+    <link rel="stylesheet" href="./CSS/shared.css" />
+  </head>
+
+  <body>
+    <nav></nav>
+
+    <!-- <div class="h1-wapper text-center text-white">
+      <h1 class="position-relative d-inline-block mb-3 mt-2">All Bookmarks</h1>
+    </div> -->
+
+    <div class="container mt-4">
+      <button class="btn btn-secondary mb-3" onclick="goBack()">← Back</button>
+
+      <!-- Bookmark Details -->
+      <div class="card mb-4">
+        <div class="card-body">
+          <h3 id="bookmarkTitle">Loading...</h3>
+
+          <a id="bookmarkUrl" target="_blank"></a>
+
+          <p class="mt-2" id="bookmarkCategory"></p>
+
+          <p>
+            <span id="bookmarkFavorite"></span>
+            <span id="bookmarkArchived"></span>
+          </p>
+
+          <small id="bookmarkDate"></small>
+        </div>
+      </div>
+
+      <!-- Add Note -->
+      <div class="card mb-3">
+        <div class="card-body">
+          <textarea
+            id="noteContent"
+            class="form-control"
+            placeholder="Write a note..."
+          ></textarea>
+          <button class="btn btn-primary mt-2" onclick="addNote()">
+            Add Note
+          </button>
+        </div>
+      </div>
+
+      <!-- Notes List -->
+      <div id="notesContainer"></div>
+    </div>
+
+    <!-- modal -->
+    <div
+      class="modal fade d-none"
+      id="exampleModal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content p-4">
+          <div class="modal-header border-0 p-0 mb-4">
+            <div class="d-flex gap-2">
+              <div class="red-circle rounded-circle"></div>
+              <div class="yellow-circle rounded-circle"></div>
+              <div class="green-circle rounded-circle"></div>
+            </div>
+
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+
+          <div class="modal-body p-0">
+            <ul class="list-unstyled">
+              <li>
+                <i class="fa-regular fa-circle-right p-2"></i>
+                Title is required.
+              </li>
+              <li>
+                <i class="fa-regular fa-circle-right p-2"></i>
+                URL must be valid (http/https).
+              </li>
+              <li>
+                <i class="fa-regular fa-circle-right p-2"></i>
+                Category must be selected.
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- js links -->
+    <script src="./JS/bootstrap.bundle.min.js"></script>
+    <script src="./JS/ui.js"></script>
+    <script src="./JS/api.js"></script>
+    <script src="./JS/auth.js"></script>
+    <script src="./JS/components.js"></script>
+    <script src="./JS/bookmark_details.js"></script>
+  </body>
+</html>

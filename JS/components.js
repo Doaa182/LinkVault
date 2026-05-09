@@ -7,9 +7,12 @@ function renderNavbar() {
   if (path.includes("home")) {
     activePage = "home";
   }
-
   if (path.includes("bookmark")) {
     activePage = "bookmark";
+  }
+
+  if (path.includes("notes")) {
+    activePage = "notes";
   }
 
   const token = localStorage.getItem("token");
@@ -73,6 +76,15 @@ function renderNavbar() {
                 aria-current="page"
                 href="./bookmarks.html"
                 >Bookmarks</a
+              >
+            </li>
+
+             <li class="nav-item">
+              <a
+                class="nav-link fw-medium  ${activePage === "notes" ? "active" : ""}"
+                aria-current="page"
+                href="./notes.html"
+                >Notes</a
               >
             </li>
             
